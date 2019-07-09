@@ -59,56 +59,40 @@
 			// your rectangle gradient interaction goes in this function
 			// you may also add code outside of the function (e.g., global variables)
 			function myGradientInteraction(){
-				
-
-        // Create a Paper.js path to draw a triangle into it
-        let path = new paper.Path();
-
-        // Add three points to the path
-        path.add(new paper.Point(120, 270));
-        path.add(new paper.Point(120, 120));
-        path.add(new paper.Point(420, 120));
-        path.add(new paper.Point(420, 270));
-
-        // Close the path
-        path.closed = true;
-
-        // Give the path a color and fill color
-        path.strokeColor = 'black';
-        path.strokeWidth = 5;
-        path.fillColor = 'red';
+        var i=1;
+        var point;
+       var myCanvas=document.getElementById("myCanvas");
+        var xone;
+        var yone;
+        var ytwo;
+        var xtwo;
         
-
-        // Draw the path now
-        paper.view.draw();
-        
-        
-        var tool = new paper.Tool();
-        var p = new Path();
-				tool.onMouseDown = function (event) {
-          p.add(event.point);
+        tool.onMouseDown = function(event){
+          yone = point.y;
+          xone = point.x;
+          point=event.downPoint;
+        }
+        tool.onMouseMove = function(event){
+          if(i==1){
+            var z=document.getElementById("myCanvas");
+            var con = z.contextx("2d");
+            con.fillStyle='red';
+            con.fillRect(200,300,250,150);
+            i=i+1;
+          }
         }
         
-				tool.onMouseUp = function (event) {
-          var tLeft = new paper.Point(420, 120);
-          var bRight = new paper.Point(120, 270);
-          dp = event.downPoint;
-          up = event.point;
-          var gradientPath = new Path.Rectangle({
-            topLeft: tLeft,
-            bottomRight: bRight,
-            fillColor: {
-              gradient: {
-                stops: ['yellow', 'red', 'blue']
-              },
-                origin: dp,
-                destination: up
-            }
-          })
-          
-					  p.add(event.point);
-            
-				}
+        tool.onMouseUp = function(event){
+          point = event.point;
+          xtwo = point.x;
+          ytwo = point.y;
+          var con=myCanvas.getContext("2d");
+          var grade=contextx.createLinearGradient(xone,yone,xtwo,ytwo);
+          grade.addColorStop(0, cp.history[cp.history.length - 2]);
+          grade.addColorStop(1, cp.history[cp.history.length -1]);
+          con.fillStyle=grade;
+          con.fillRect(200,300,250,150);
+        }
 			}
 
 			// your custom interaction goes here!
