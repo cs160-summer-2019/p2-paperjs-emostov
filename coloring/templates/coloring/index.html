@@ -54,18 +54,60 @@
 				options: [],
 				$container: $('#color-palette')
 			}
+      
 
 			// your rectangle gradient interaction goes in this function
 			// you may also add code outside of the function (e.g., global variables)
 			function myGradientInteraction(){
-				var tool = new paper.Tool();
+				
 
+        // Create a Paper.js path to draw a triangle into it
+        let path = new paper.Path();
+
+        // Add three points to the path
+        path.add(new paper.Point(120, 270));
+        path.add(new paper.Point(120, 120));
+        path.add(new paper.Point(420, 120));
+        path.add(new paper.Point(420, 270));
+
+        // Close the path
+        path.closed = true;
+
+        // Give the path a color and fill color
+        path.strokeColor = 'black';
+        path.strokeWidth = 5;
+        path.fillColor = 'red';
+        
+
+        // Draw the path now
+        paper.view.draw();
+        
+        
+        var tool = new paper.Tool();
+        var p = new Path();
 				tool.onMouseDown = function (event) {
-
-				}
-
+          p.add(event.point);
+        }
+        
 				tool.onMouseUp = function (event) {
-					
+          var tLeft = new paper.Point(420, 120);
+          var bRight = new paper.Point(120, 270);
+          dp = event.downPoint;
+          up = event.point;
+          var gradientPath = new Path.Rectangle({
+            topLeft: tLeft,
+            bottomRight: bRight,
+            fillColor: {
+              gradient: {
+                stops: ['yellow', 'red', 'blue']
+              },
+                origin: dp,
+                destination: up
+            }
+          })
+          
+					  p.add(event.point);
+            
 				}
 			}
 
@@ -101,7 +143,7 @@
 			// loads a set of colors from a json to create a color palette
 			function getColorsCreatePalette(){
 				cp.$container.html(" ");
-				$.getJSON('/static/coloring/vendors/material/material-colors.json', function(colors){
+				$.getJSON('/static/coloring/vendors/material/material-colors.json',      function(colors){
 					var keys = Object.keys(colors);
 					for (var i = keys.length - 1; i >= 0; i--) {
 						cp.options.push(colors[keys[i]][500]);
@@ -138,6 +180,8 @@
 				init(true);
 			}
 		}
+    
+   
 	</script>
 </head>
 <body>	
