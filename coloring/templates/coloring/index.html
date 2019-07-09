@@ -59,40 +59,29 @@
 			// your rectangle gradient interaction goes in this function
 			// you may also add code outside of the function (e.g., global variables)
 			function myGradientInteraction(){
-        var i=1;
-        var point;
-       var myCanvas=document.getElementById("myCanvas");
-        var xone;
-        var yone;
-        var ytwo;
-        var xtwo;
-        
+        var rectangle1 = new paper.Path.Rectangle({size: new paper.Size(500, 200), center: paper.view.center, fillColor: 'red'});
+        var tool = new paper.Tool();
         tool.onMouseDown = function(event){
-          yone = point.y;
-          xone = point.x;
-          point=event.downPoint;
+          
         }
-        tool.onMouseMove = function(event){
-          if(i==1){
-            var z=document.getElementById("myCanvas");
-            var con = z.contextx("2d");
-            con.fillStyle='red';
-            con.fillRect(200,300,250,150);
-            i=i+1;
+        var start;
+        var endd;
+        var choiceFirst;
+        var choiceSecond;
+        tool.onMouseUp = function(event){
+          start = event.downPoint;
+          endd = event.point;
+          choiceFirst = cp.history[cp.history.length - 2];
+          choiceSecond = cp.history[cp.history.length - 1];
+          rectangle1.fillColor = {
+            gradient: {
+              stops: [choiceFirst, choiceSecond]
+            },
+            origin: start,
+            destination: endd
           }
         }
-        
-        tool.onMouseUp = function(event){
-          point = event.point;
-          xtwo = point.x;
-          ytwo = point.y;
-          var con=myCanvas.getContext("2d");
-          var grade=contextx.createLinearGradient(xone,yone,xtwo,ytwo);
-          grade.addColorStop(0, cp.history[cp.history.length - 2]);
-          grade.addColorStop(1, cp.history[cp.history.length -1]);
-          con.fillStyle=grade;
-          con.fillRect(200,300,250,150);
-        }
+
 			}
 
 			// your custom interaction goes here!
